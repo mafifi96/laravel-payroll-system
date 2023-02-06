@@ -16,8 +16,15 @@ class PositionFactory extends Factory
      */
     public function definition()
     {
-        return [
+        $positions = ['Programmer' , 'Designer' , 'Accountant' , 'Customers Service'];
+        $salaries  = [10000,5000,3500,7000];
+        $departments = Department::pluck('id')->toArray();
 
+        return [
+            'name' => fake()->randomElement($positions),
+            'description' => fake()->sentence(),
+            'salary' => fake()->randomElement($salaries),
+            'department_id' => fake()->randomElement($departments)
         ];
     }
 }

@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +17,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if(Auth::check())
+    {
+        $auth = auth()->user()->id;
+    }else{
+        $auth = "No";
+    }
+    return view('welcome' , ['isAuth' => $auth]);
+});
+
+Route::controller(AuthController::class)->group(function()
+{
+    Route::post('/login' , 'login');
+    Route::post('/register' , 'register');
+
+});
+
+
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+
+    return  $request->user();
+
 });

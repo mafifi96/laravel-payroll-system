@@ -12,7 +12,7 @@ class Department extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $guarde = [];
+    protected $guarded = [];
 
     protected $table = 'department';
 

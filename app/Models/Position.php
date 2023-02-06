@@ -12,6 +12,10 @@ class Position extends Model
 {
     use HasFactory,SoftDeletes;
 
+    protected $guarded = [];
+
+    protected $table = 'position';
+
 
     public function department()
     {

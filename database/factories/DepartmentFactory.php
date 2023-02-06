@@ -16,10 +16,11 @@ class DepartmentFactory extends Factory
      */
     public function definition()
     {
-        $department = ['IT Department' , 'Management Department' , 'Accounting Department' , 'Hr Department'];
+        $departments = ['IT Department' , 'Management Department' , 'Accounting Department' , 'Hr Department'];
+
         return [
-            'name' => $department[rand(0,2)],
-            'description' => $this->faker->title(),
+            'name' => fake()->randomElement($departments),
+            'description' => fake()->sentence(),
         ];
     }
 }
