@@ -1,4 +1,4 @@
 
-## Backend for NuxtJs payroll system
+## Laravel 9 with Sanctum token authentication Backend for NuxtJs payroll system
 
--- Progress 80%...
+Look at the [Nuxt Frontend](https://github.com/mafifi96/nuxtjs-payroll-system) to learn more.
