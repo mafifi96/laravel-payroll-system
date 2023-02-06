@@ -13,9 +13,19 @@ use App\Models\Deduction;
 
 class Employee extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime:M , d / Y',
+    ];
 
     protected $guarded = [];
+
+    protected $table = 'employee';
 
     public function department()
     {
