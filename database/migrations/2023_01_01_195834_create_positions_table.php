@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('position', function (Blueprint $table) {
+        Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string("name");
             $table->text("description")->nullable();
-            $table->decimal("salary");
-            $table->foreignId("department_id")->constrained("department")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->unsignedBigInteger('department_id')->nullable();
+            $table->foreign("department_id")->references("id")->on("departments");
             $table->softDeletes();
             $table->timestamps();
         });

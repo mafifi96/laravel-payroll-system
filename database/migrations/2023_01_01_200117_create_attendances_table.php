@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('attendance', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            //$table->enum("log_typ",[1,2,3,4])->comment("1 Time-in-AM , 2 Time-out-AM , 3 Time-in-PM , 4 Time-out-PM");
-            $table->time("from");
-            $table->time("to");
-            $table->tinyInteger("hours");
-            $table->foreignId("employee_id")->constrained("employee")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->date('date');
+            $table->time("check_in")->nullable();
+            $table->time("check_out")->nullable();
+            $table->enum('status', ['present', 'absent', 'late', 'leave'])->default('absent');
+            $table->unsignedBigInteger('employee_id')->nullable();
+            $table->foreign("employee_id")->references("id")->on("employees");
             $table->timestamps();
         });
     }

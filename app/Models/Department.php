@@ -11,11 +11,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Department extends Model
 {
     use HasFactory,SoftDeletes;
+        /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+
+    protected $casts = [
+        'created_at' => 'datetime:M , d / Y',
+    ];
 
     protected $guarded = [];
-
-    protected $table = 'department';
-
 
     public function positions()
     {

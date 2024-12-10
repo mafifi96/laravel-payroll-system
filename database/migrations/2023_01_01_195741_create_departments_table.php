@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('payroll', function (Blueprint $table) {
-            $table->id();
-            $table->date("from");
-            $table->date("to");
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id()->unsigned();
+            $table->string("name");
+            $table->text("description")->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payroll');
+        Schema::dropIfExists('department');
     }
 };

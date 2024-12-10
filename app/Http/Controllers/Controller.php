@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -16,16 +17,17 @@ class Controller extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendResponse($result, $message = null)
+    public function sendResponse($data = null, $message = null, $additional = null)
     {
+
     	$response = [
             'success' => true,
-            'data'    => $result,
+            'data'    => $data,
             'message' => $message,
         ];
 
-
-        return response()->json($response, 200);
+        if (is_array($additional)) $response = array_merge($response, $additional);
+        return response($response, 200);
     }
 
 

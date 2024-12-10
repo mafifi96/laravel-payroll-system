@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Employee;
 use Carbon\Carbon;
 
-class Deduction extends Model
+class Bonus extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class Deduction extends Model
 
     public function employees()
     {
-        return $this->belongsToMany(Employee::class,'employees_deductions');
+        return $this->belongsToMany(Employee::class,'employees_bonuses');
     }
 
     public function setDateAttribute($value)

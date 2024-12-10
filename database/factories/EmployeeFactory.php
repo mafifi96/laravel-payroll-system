@@ -18,11 +18,15 @@ class EmployeeFactory extends Factory
      */
     public function definition()
     {
+        $salaries  = [10000,5000,3500,7000];
         return [
-            'name' => fake()->name('male'),
+            'first_name' => fake()->name('male'),
+            'last_name' => fake()->name('male'),
             'email' =>fake()->email(),
             'phone' => fake()->phoneNumber(),
-            'status' => fake()->randomElement(["0","1"]),
+            'status' => fake()->randomElement(["active","inactive"]),
+            'salary' => fake()->randomElement($salaries),
+            'hired_at' => fake()->date(),
             'department_id' => fake()->randomElement(Department::pluck('id')->toArray()),
             'position_id' => fake()->randomElement(Position::pluck('id')->toArray())
         ];
