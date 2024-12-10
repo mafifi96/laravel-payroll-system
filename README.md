@@ -33,7 +33,7 @@ Make sure you have the following installed on your system:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/laravel-nuxt-payroll.git
+git clone https://github.com/mafifi96/laravel-payroll-system.git
 cd laravel-nuxt-payroll
 
 Look at the [Nuxt Frontend](https://github.com/mafifi96/nuxtjs-payroll-system) to learn more.
