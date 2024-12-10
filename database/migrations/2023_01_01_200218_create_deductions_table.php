@@ -14,9 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('deductions', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id',true);
             $table->string("name");
+            $table->date('date');
+            $table->float('amount',10,2);
             $table->text("description")->nullable();
+            // for one to many deductions
+            //$table->unsignedBigInteger('employee_id')->nullable();
+            //$table->foreign("employee_id")->references("id")->on("employees");
             $table->timestamps();
         });
     }

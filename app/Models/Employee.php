@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Department;
 use App\Models\Position;
-use App\Models\Payslip;
-use App\Models\Allowance;
+use App\Models\Bonus;
 use App\Models\Deduction;
 
 class Employee extends Model
@@ -23,9 +22,19 @@ class Employee extends Model
         'created_at' => 'datetime:M , d / Y',
     ];
 
-    protected $guarded = [];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'age',
+        'email',
+        'phone',
+        'salary',
+        'hired_at',
+        'status',
+        'department_id',
+        'position_id'
+    ];
 
-    protected $table = 'employee';
 
     public function department()
     {
@@ -37,18 +46,18 @@ class Employee extends Model
         return $this->belongsTo(Position::class);
     }
 
-    public function allowances()
+    public function bonuses()
     {
-        return $this->belongsToMany(Allowance::class, 'employee_allowances');
+        return $this->belongsToMany(Bonus::class , 'employees_bonuses');
     }
 
-    public function deduction()
+    public function deductions()
     {
-        return $this->belongsToMany(Deduction::class, 'employee_deductions');
+        return $this->belongsToMany(Deduction::class , 'employees_deductions');
     }
 
-    public function payslip()
+    public function attendances()
     {
-        return $this->hasMany(Payslip::class);
+        return $this->hasMany(Attendance::class);
     }
 }

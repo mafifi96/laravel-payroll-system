@@ -13,14 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('employee', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
+            $table->string("first_name");
+            $table->string("last_name");
             $table->string("email")->unique();
             $table->string("phone");
-            $table->enum("status",[0,1])->default(1)->comment("1 is working , 0 Fired Or Not Working");
-            $table->foreignId("department_id")->constrained("department");
-            $table->foreignId("position_id")->constrained("position");
+            $table->date('hired_at');
+            $table->float('salary', 10, 2);
+            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->unsignedBigInteger('department_id')->nullable();
+            $table->unsignedBigInteger('position_id')->nullable();
+            $table->foreign("department_id")->references("id")->on("departments");
+            $table->foreign("position_id")->references("id")->on("positions");
             $table->softDeletes();
             $table->timestamps();
         });

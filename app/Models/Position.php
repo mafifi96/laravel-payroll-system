@@ -12,10 +12,17 @@ class Position extends Model
 {
     use HasFactory,SoftDeletes;
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+    */
+    protected $casts = [
+        'created_at' => 'datetime:M , d / Y',
+    ];
+
+
     protected $guarded = [];
-
-    protected $table = 'position';
-
 
     public function department()
     {

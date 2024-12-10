@@ -13,11 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('department', function (Blueprint $table) {
-            $table->id();
+        Schema::create('bonuses', function (Blueprint $table) {
+            $table->unsignedBigInteger('id',true);
             $table->string("name");
+            $table->date('date');
+            $table->float('amount',10,2);
             $table->text("description")->nullable();
-            $table->softDeletes();
+            // for one to many bonuses
+            /* $table->unsignedBigInteger('employee_id')->nullable();
+            $table->foreign("employee_id")->references("id")->on("employees"); */
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('department');
+        Schema::dropIfExists('allowances');
     }
 };

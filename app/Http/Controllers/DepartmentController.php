@@ -60,4 +60,12 @@ class DepartmentController extends Controller
         return response()->json($positions);
 
     }
+    public function test()
+    {
+        
+
+
+        return response()->json(auth()->user()->id);
+
+    }
 }

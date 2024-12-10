@@ -2,42 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Employee\StoreEmployeeRequest;
+use App\Http\Requests\Employee\UpdateEmployeeRequest;
+use App\Http\Resources\Employee\EmployeeCollection;
+use App\Http\Resources\Employee\EmployeeResource;
+use App\Http\Services\PayrollService;
 use Illuminate\Http\Request;
 use App\Models\Employee;
-use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employee::with('position','department')->get();
 
-        return $this->sendResponse($employees);
+        $employees = Employee::with('position','department')->paginate($request->limit ?? 10);
+        
+        return successResponse(new EmployeeCollection($employees));
     }
 
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
 
-        $validator = Validator::make($request->only(['name','email','status','phone','department_id','position_id']),
-        [
-            'name' => 'required|string|max:25|min:5',
-            'email' => 'required|email|max:30',
-            'status' => 'numeric',
-            'phone' => 'numeric',
-            'department_id' => 'numeric',
-            'position_id' => 'numeric'
-        ]
-        );
+        $employee = Employee::create($request->validated());
 
-        if($validator->fails())
-        {
-            return $this->sendError($validator->errors());
-        }
+        return simpleSuccessResponse(new EmployeeResource($employee));
+    }
 
-        $employee = Employee::create($validator->validated());
+    public function show(Employee $employee)
+    {
+        return simpleSuccessResponse(new EmployeeResource($employee));
+    }
 
-        return $this->sendResponse($employee);
+    public function update(UpdateEmployeeRequest $request , Employee $employee)
+    {
+        
+        $employee->update($request->validated());
+        
+        return simpleSuccessResponse(message: "Employee Updated Successfuly");
+    }
+
+    public function destroy(Employee $employee)
+    {
+        $employee->delete();
+    
+        return successResponse(message: "Employee Deleted Successfully");
     }
 
 }

@@ -19,15 +19,15 @@ class AuthController extends Controller
 
             if (Auth::attempt($creds)) {
 
-
                 $token = auth()->user()->createToken('token')->plainTextToken;
 
                 $data = ['token' => $token];
+                
+                return simpleSuccessResponse($data,'Login Successfully');
 
-                return  $this->sendResponse($data, 'logged in successfully');
             }else{
 
-                return $this->sendError('Email or Password is wrong.' , code: 401);
+                return failMessageResponse("Email or Password is wrong.");
             }
 
 
@@ -37,16 +37,12 @@ class AuthController extends Controller
     {
     }
 
-    public function logout()
+    public function logout(Request $request
+    )
     {
-        // Revoke all tokens...
+
         auth()->user()->tokens()->delete();
 
-        // Revoke the token that was used to authenticate the current request...
-        //$request->user()->currentAccessToken()->delete();
-
-        // Revoke a specific token...
-       // $user->tokens()->where('id', $tokenId)->delete();
 
         return response()->json(['message' => 'logged out']);
     }
