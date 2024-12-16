@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Departments;
+namespace App\Http\Resources\Positions;
 
 use App\Http\Resources\Employee\EmployeeCollection;
-use App\Http\Resources\Positions\PositionsCollection;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Carbon;
 
-class DepartmentsResource extends JsonResource
+class PositionsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,11 +21,10 @@ class DepartmentsResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'employees_count' => $this->employees_count,
-            'positions_count' => $this->positions_count,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d h:i a'),
             'employees'       => $this->whenLoaded('employees',fn () => new EmployeeCollection($this->employees)),
-            'positions' => $this->whenLoaded('positions',fn () => new PositionsCollection($this->positions)),
-
+            'department_name' => $this->whenLoaded('departments',fn () => $this->department->name),
+            
         ];
     }
 }
