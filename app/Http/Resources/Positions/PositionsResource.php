@@ -20,10 +20,10 @@ class PositionsResource extends JsonResource
         [
             'id' => $this->id,
             'name' => $this->name,
-            'employees_count' => $this->employees_count,
+            'employees_count' => $this->whenLoaded('employees',fn () => count($this->employees)),
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d h:i a'),
             'employees'       => $this->whenLoaded('employees',fn () => new EmployeeCollection($this->employees)),
-            'department_name' => $this->whenLoaded('departments',fn () => $this->department->name),
+            'department_name' => $this->whenLoaded('department',fn () => $this->department->name),
             
         ];
     }
