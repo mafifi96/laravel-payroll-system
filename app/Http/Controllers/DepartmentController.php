@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DepartmentRequest;
+use App\Http\Resources\Departments\DepartmentsCollection;
+use App\Http\Resources\Departments\DepartmentsResource;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,61 +14,33 @@ class DepartmentController extends Controller
     public function index(Request $request)
     {
 
-        if($request->hasHeader('x-with-positions'))
-        {
-            return $this->sendResponse(Department::latest()->with('positions')->get(['id', 'name']));
-        }
+       $departments = Department::withCount('employees')->paginate($request->limit ?? 10);
 
-        return $this->sendResponse(Department::latest()->get(['id', 'name']));
+       return successResponse(new DepartmentsCollection($departments));
+       return successResponse(DepartmentsResource::collection($departments));
 
     }
 
-    public function show($id)
+    public function show(Department $department)
     {
-        return $this->sendResponse(Department::findOrFail($id));
+        return simpleSuccessResponse(new DepartmentsResource($department));
     }
 
-    public function store(Request $request)
+    public function store(DepartmentRequest $request)
     {
 
-        //return $this->sendResponse($request->all());
-        $validator = Validator::make($request->only(['name', 'description']), [
-            'name' => 'required|min:6',
-            'description' => 'max:100'
-        ]);
+        Department::updateOrCreate($request->validated());
 
-         if ($validator->fails()) {
-            return $this->sendError($validator->errors(), 'something is wrong..');
-        }
-
-        Department::updateOrCreate($validator->validated());
-
-        return $this->sendResponse([], 'department created successfully');
+        return simpleSuccessResponse(message: 'department created successfully');
 
     }
 
-    public function destroy($id)
+    public function destroy(Department $department)
     {
-        Department::findOrFail($id)->delete();
+        $department->delete();
 
-        return $this->sendResponse([] , 'deleted');
-    }
-
-    public function positions($id)
-    {
-        $department = Department::findOrFail($id);
-
-        $positions = $department->positions;
-
-        return response()->json($positions);
+        return simpleSuccessResponse(message: 'department deleted successfully');
 
     }
-    public function test()
-    {
-        
-
-
-        return response()->json(auth()->user()->id);
-
-    }
+    
 }

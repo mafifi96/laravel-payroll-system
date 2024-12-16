@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Payrolls;
+namespace App\Http\Resources\Departments;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class PayrollCollection extends ResourceCollection
+class DepartmentsCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
