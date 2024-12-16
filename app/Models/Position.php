@@ -22,7 +22,7 @@ class Position extends Model
     ];
 
 
-    protected $guarded = [];
+    protected $fillable = ['id','name','description','created_at'];
 
     public function department()
     {

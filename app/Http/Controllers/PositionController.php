@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Poisitons\PositionsRequest;
+use App\Http\Resources\Positions\PositionsCollection;
+use App\Http\Resources\Positions\PositionsResource;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Models\Position;
@@ -10,54 +13,43 @@ use Illuminate\Support\Facades\Validator;
 class PositionController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
 
-        $positions = Position::with('department')->get();
+        $positions = Position::with('department')->withCount('employees')->paginate($request->limit ?? 10);
 
-        $departments = Department::all('id','name');
-
-        return $this->sendResponse(['positions' => $positions , 'departments' => $departments]);
+        return successResponse(new PositionsCollection($positions));
 
     }
 
-    public function show($id)
+    public function show(Position $position)
     {
-        $department = Department::findOrFail($id);
-
-        $positions = Position::where('department_id',$id)->get();
-
-        return $this->sendResponse($positions);
+        return simpleSuccessResponse(new PositionsResource($position->load('employees')));
     }
 
-    public function store(Request $request)
+    public function store(PositionsRequest $request)
     {
-        $department =  Department::findOrFail($request->department);
+        
+        Position::create($request->validated());
 
-        $validator = Validator::make($request->only(['department', 'name']), [
-            'name' => 'required|min:6',
-            'department' => 'required|integer'
-        ]);
-
-        if($validator->fails())
-        {
-            return $this->sendError($validator->errors());
-        }
-
-        Position::create([
-            'name' => $request->name,
-            'department_id' => $request->department
-        ]);
-
-        return $this->sendResponse([], 'position created successfully');
-
+        return simpleSuccessResponse(message: 'position created successfully');
 
     }
 
-
-    public function destroy($id)
+    public function update(PositionsRequest $request , Position $position)
     {
-        Position::findOrFail($id)->delete();
+        
+        $position->create($request->validated());
+
+        return simpleSuccessResponse(message: 'position updated successfully');
+
+    }
+
+    public function destroy(Position $position)
+    {
+       $position->delete();
+
+       return simpleSuccessResponse(message: 'position deleted successfully');
     }
 
 }
