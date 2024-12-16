@@ -17,7 +17,7 @@ class AttendancesResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'employee' => $this->employee->first_name . " " . $this->employee->last_name,
+            'employee_name' => $this->employee->first_name . " " . $this->employee->last_name,
             'employee_id' =>$this->employee_id,
             'status' => $this->status,
             'date' => Carbon::parse($this->date)->format('M , d / Y'),
