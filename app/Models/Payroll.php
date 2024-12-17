@@ -20,8 +20,17 @@ class Payroll extends Model
     ];
 
 
-    protected $guarded = [];
+    protected $fillable = [
+        'bounses',          // Bonuses for the employee
+        'deductions',       // Deductions applied to salary
+        'salary',           // Base salary
+        'net',              // Net salary after bonuses and deductions
+        'pay_date',         // Salary payment date
+        'payment_status',   // Payment status: 'paid' or 'pending'
+        'employee_id',      // Foreign key to link with the employees table
+    ];
 
+    
     public function employee()
     {
         return $this->belongsTo(Employee::class);

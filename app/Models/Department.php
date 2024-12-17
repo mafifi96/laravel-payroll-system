@@ -21,7 +21,7 @@ class Department extends Model
         'created_at' => 'datetime:M , d / Y',
     ];
 
-    protected $fillable = ['id','name','description','created_at'];
+    protected $fillable = ['name','description','created_at'];
 
     public function positions()
     {
