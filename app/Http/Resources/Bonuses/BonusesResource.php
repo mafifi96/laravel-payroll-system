@@ -24,6 +24,7 @@ class BonusesResource extends JsonResource
             'date'            => Carbon::parse($this->date)->format("Y-m-d h:i a"),
             'created_at'      => Carbon::parse($this->created_at)->format("Y-m-d h:i a"),
             'employees'       => $this->whenLoaded('employees',fn () => new EmployeeCollection($this->employees))
+            
         ];
     }
 }

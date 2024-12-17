@@ -16,7 +16,7 @@ class Attendance extends Model
         'date'       => 'datetime:M , d / Y'
     ];
 
-    protected $fillable = ['id', 'date', 'check_in', 'check_out', 'status','employee_id', 'created_at'];
+    protected $fillable = [ 'date', 'check_in', 'check_out', 'status','employee_id', 'created_at'];
 
     public function employee()
     {

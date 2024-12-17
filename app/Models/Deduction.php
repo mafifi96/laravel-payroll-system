@@ -11,7 +11,7 @@ class Deduction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id','name','amount','date','description','created_at'];
+    protected $fillable = ['name','amount','date','description','created_at'];
 
     public function employees()
     {
